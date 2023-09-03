@@ -43,7 +43,7 @@ L2_expandida = sym.expand(L2)
 #print(L1_expandida)
 #print(L2_expandida)
 
-def funcion(y_lista, Li):
+def funcion_(y_lista, Li):
     f = 0
     i = 0
     for y in y_lista:
@@ -51,9 +51,34 @@ def funcion(y_lista, Li):
             f += y*Li[i]
         i += 1
     return f
+#print(funcion_(y_lista, Li(x_lista, x)))
 
 x_ = np.linspace(0, 6.6, 1000)
-fun_expandida = sym.expand(funcion(y_lista, Li(x_lista, x)))
-print(fun_expandida)
-plt.plot(x_, funcion(y_lista, Li(x_lista, x_)))
-plt.show()
+fun_expandida = sym.expand(funcion_(y_lista, Li(x_lista, x)))
+#print(fun_expandida)
+#plt.plot(x_, funcion_(y_lista, Li(x_lista, x_)))
+#plt.show()
+
+def DerivadaCentral(h=1e-6):
+    
+    d = []
+    for i in x_:
+        if h != 0:
+            d.append((funcion_(y_lista, Li(x_lista, i+h)) - funcion_(y_lista, Li(x_lista, i-h)))/(2*h))
+        
+    return d
+#print(DerivadaCentral())
+
+def posicion_final_en_y(d):
+    i = 0
+    ymax = 0
+    while i < len(d):
+        if round(d[i], 3) == 0:
+            ymax = funcion_(y_lista, Li(x_lista, x_[i]))
+            i += len(d)
+        else:
+            i += 1
+    return ymax
+
+#print(posicion_final_en_y(DerivadaCentral()))
+def velocidad_final_en_y(yf, y0=0, vf=0, g=-9.8):

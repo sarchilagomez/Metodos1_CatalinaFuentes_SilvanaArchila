@@ -29,7 +29,7 @@ def x_n(x, der, fun, precision=1e-5, itmax=1000):
         it += 1
     return x
 
-def get_all_roots(x, tolerancia=2):
+def get_all_roots(x, tolerancia=4):
     roots = np.array([])
     for i in x:
         
