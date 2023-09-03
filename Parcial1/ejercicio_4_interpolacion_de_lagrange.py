@@ -69,7 +69,8 @@ def DerivadaCentral(h=1e-6):
     return d
 #print(DerivadaCentral())
 
-def posicion_final_en_y(d):
+def posicion_final_en_y():
+    d = DerivadaCentral()
     i = 0
     ymax = 0
     while i < len(d):
@@ -79,6 +80,42 @@ def posicion_final_en_y(d):
         else:
             i += 1
     return ymax
+#print(posicion_final_en_y())
 
-#print(posicion_final_en_y(DerivadaCentral()))
-def velocidad_final_en_y(yf, y0=0, vf=0, g=-9.8):
+def velocidad_inicial_en_y(yf, y0=0, vf=0, g=-9.8):
+    v02 = vf**2 - 2*g*(yf-y0)
+    return np.sqrt(v02)
+#print(velocidad_inicial_en_y(posicion_final_en_y()))
+
+def tiempo(v0, yf, y0=0, vf=0):
+    return 4*(yf-y0)/(vf+v0)
+#print(tiempo(velocidad_inicial_en_y(posicion_final_en_y()), posicion_final_en_y()))
+
+def posicion_final_en_x():
+    d = DerivadaCentral()
+    i = 0
+    xmax = 0
+    while i < len(d):
+        if round(d[i], 3) == 0:
+            xmax = 2*(x_[i])
+            i += len(d)
+        else:
+            i += 1
+    return xmax
+#print(posicion_final_en_x())
+
+def velocidad_en_x(t, xf, x0=0):
+    return (xf-x0)/t
+#print(velocidad_en_x(tiempo(velocidad_inicial_en_y(posicion_final_en_y()), posicion_final_en_y()), posicion_final_en_x()))
+
+def velocidad_inicial(vx, vy):
+    return np.sqrt(vx**2 + vy**2)
+
+def direccion(vx, vy):
+    angulo_radianes = np.arctan(vy/vx)
+    angulo_grados = angulo_radianes*180/np.pi
+    return angulo_grados
+vx = velocidad_en_x(tiempo(velocidad_inicial_en_y(posicion_final_en_y()), posicion_final_en_y()), posicion_final_en_x())
+vy = velocidad_inicial_en_y(posicion_final_en_y())
+print(f"La velocidad inicial fue aproximadamente de {velocidad_inicial(vx, vy)}m/s a un ángulo de {direccion(vx, vy)}° sobre la horizontal.")
+
