@@ -12,7 +12,7 @@ while linea != "":
     x_lista.append(float(linea.strip("\n").split(",")[0]))
     y_lista.append(float(linea.strip("\n").split(",")[1]))
     linea = a.readline()
-#print(x, y)
+#print(x_lista, y_lista)
 a.close()
 
 def Li(x_lista, x):
