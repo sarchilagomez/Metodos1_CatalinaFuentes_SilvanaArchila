@@ -3,7 +3,7 @@ import sympy as sym
 import matplotlib.pyplot as plt
 import numpy as np
 
-a = open("Parcial1\\Parabolico.csv", "r", encoding = "UTF-8")
+a = open("Metodos1_CatalinaFuentes_SilvanaArchila\Parcial1\Parabolico.csv", "r", encoding = "UTF-8")
 x_lista = []
 y_lista = []
 linea = a.readline()
