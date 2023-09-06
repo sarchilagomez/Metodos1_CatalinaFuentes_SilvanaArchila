@@ -32,7 +32,7 @@ def Li(x_lista, x):
         i += 1
     return li
 
-x = sym.Symbol("x",real=True)
+x_ = sym.Symbol("x",real=True)
 L0 = Li(x_lista, x)[0]
 L1 = Li(x_lista, x)[1]
 L2 = Li(x_lista, x)[2]
