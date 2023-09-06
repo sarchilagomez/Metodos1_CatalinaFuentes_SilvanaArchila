@@ -59,21 +59,6 @@ poli_simpli = polinomio.expand() #simplifica el polinomio (ya ese es :D)
 
 #print(poli_simpli)
 
-#GRAFICANDO POLINOMIO
-
-px = sym.lambdify(X, poli_simpli) #debe quedar (la x que tenias en sym.Symbol , polinomo)
-plt.plot(x,y0,'o',label='Conjunto soporte') #plotea conjunto soporte (puntos)
-pxi = np.linspace(0, 10, 50) #(menor dato x (o a bit antes), mayor dato x (o a bit despues), entre mas grande el num mas suave la grafica)
-pfi = px(pxi) #evalua el poli en forma lambda (px) en los puntos de x que queremos (pxi)
-plt.plot(pxi,pfi, label='Polinomio interpolado') #plotea el polinomio
-
-#cositas extra
-plt.legend()
-plt.xlabel('xi')
-plt.ylabel('fi')
-plt.title('Polinomio con Interpolación de Newton') 
-
-plt.show()
 
 #HALLANDO A B Y C 
 
@@ -105,65 +90,37 @@ y0.append(fx3)
 
 
 parar = 10**(-10)
-while np.abs(y0[-1]) > parar:
-    y1= [] #pendientes orden 1
-    for i in range(0,len(y0)-1):
-        z = (y0[len(y0)-2]-y0[len(y0)-3])/(x[len(y0)-2]-x[len(y0)-3])
-        y1.append(z)
-        
-    y2 = [] #pendientes orden 2
-    for i in range(0,len(y1)-1):
-        z = (y1[len(y0)-2]-y1[len(y0)-3])/(x[len(y0)-1]-x[len(y0)-3])
-        y2.append(z)
-        
-    y3 = [] #pendientes orden 3
-    for i in range(0,len(y2)-1):
-        z = (y2[len(y0)-2]-y2[len(y0)-3])/(x[len(y0)]-x[len(y0)-3])
-        y3.append(z)
+iter = 0
+while np.abs(y0[-1]) > parar and iter < 100:
+    iter += 1
 
-        #ajustar rango (len), ajustar x[i+NUM] y donde appendear cada vez
+    def dif2(x0, x1, F):
+        resul= (F(x1)-F(x0))/(x1-x0)
+        return resul
 
-    #CONSTRUYENDO POLINOMIO CON SYMPY 
-    X = sym.Symbol('x') #elegimos la letra que va a representar nuestra variable en los polinomios (x)
-    polinomio = y0[0] #1er término del polinomio (1er dato de y: f(0))
-        
-    Y = [y1,y2,y3] #creo lista con todas las pendientes/As
+    def dif3(x0,x1,x2,F):
+        resul= (dif2(x1,x2,F)- dif3(x0,x1,F))/(x2-x0)
+        return resul
 
-    termino = 1 #termino son los paréntesis que acompañan a las pendientes/As
-    for i in range(0,len(x)-1):
-        termino = termino*(X-x[i]) #interación de los paréntesis donde se van añadiendo para formar término
-        polinomio = polinomio + termino*Y[i][0] #multiplica el termino con las pendientes/As que guardamos en la lista Y y los suma para formar el polinomio
-    poli_simpli = polinomio.expand() #simplifica el polinomio (ya ese es :D)
-
-    #print(poli_simpli)
-
-    #GRAFICANDO POLINOMIO
-
+    def sacar_abc(x0,x1,x2,F):
+        a = dif3(x0,x1,x2,F)
+        b = dif2(x0,x1,F)-((x0+x1)*(dif3(x0,x1,x2,F)))
+        c = F(x0)-((x0)*dif2(x0,x1,F))+(x0*x1*dif3(x0,x1,x2,F))
+        abc = []
+        abc.append(a)
+        abc.append(b)
+        abc.append(c)
+        return abc
     
-
-    string = str(poli_simpli)
-    #print(string)
-    string = string.split(" ")
-    #print(string)
-    a_varios = string[0]
-    b_varios = string[2]
-
-    c = float(string[4])
-    a = float(a_varios.split("*")[0])
-    b = float(b_varios.split("*")[0])
-
-    def x3(a, b, c):
-        respuesta = 0
-        if b > 0:
-            respuesta = (-2*c)/(b + np.sqrt(b**2 - 4*a*c))
-        if b < 0:
-            respuesta = (-2*c)/(b - np.sqrt(b**2 - 4*a*c))
-        return respuesta
-
-    #PUNTO E 
+    abc = sacar_abc(x[0], x[1], x[2], funcion(x))
+    a = abc[0]
+    b = abc[1]
+    c = abc[2]
 
     fx3 = funcion(x3(a,b,c))
-    x.append(x3(a, b, c))
-    y0.append(fx3)
+    x = [x[iter+1], x[iter+2], x[iter+3]]
+    y0 = [y0[iter+1], y0[iter+2], y0[iter+3]]
+
+
 
 
