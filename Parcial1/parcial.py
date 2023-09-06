@@ -112,7 +112,7 @@ while np.abs(y0[-1]) > parar and iter < 100:
         abc.append(c)
         return abc
     
-    abc = sacar_abc(x[0], x[1], x[2], funcion(x))
+    abc = sacar_abc(x[0], x[1], x[2], funcion(X))
     a = abc[0]
     b = abc[1]
     c = abc[2]
