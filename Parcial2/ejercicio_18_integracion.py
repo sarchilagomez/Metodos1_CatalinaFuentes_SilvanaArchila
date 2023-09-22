@@ -7,7 +7,7 @@ x = sym.Symbol('x',real=True)
 y = sym.Symbol('y',real=True)
 
 
-#GAUSS-HERMITE (de -infinito a infinito)
+#GAUSS-HERMITE (de -infinito a infinito) e**(-(x**2)/2)
 
 #1
 def GetHermite(n,x):
@@ -106,18 +106,20 @@ def GetWeightsGHer(n):
     
     return Weights
 
-n = 5
+n = 3
 raices = GetAllRootsGHer(n)
 pesos = GetWeightsGHer(n)
 
-funcion = lambda x: 1 #Esta la cambias por la función que quieras 
-
+funcion = lambda x: (2*(x**4)*(1/np.pi)**(1/2)) #La función a integrar fue calculada a mano y está en el archivo teórico
+#(2*(x**4)*(1/np.pi)**(1/2)*(np.e)**(-(x**2)/2))/((np.e)**(-(x**2)))
 I = 0
 for i in range(n):
     I += pesos[i]*funcion(raices[i])
-#print(I)
+
 
 print("Los primeros 20 ceros de los polinomios son:")
 print(GetAllRootsGHer(20))
 print("Y sus correspondientes pesos de cuadratura son:")
 print(GetWeightsGHer(20))
+print()
+print(f"El valor cuadrático medio de la posición de la partícula en el primer estado exitado es {I}")
