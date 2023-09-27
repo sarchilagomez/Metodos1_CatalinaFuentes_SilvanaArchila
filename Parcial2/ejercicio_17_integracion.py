@@ -136,6 +136,7 @@ for n in n_lista:
 plt.scatter(n_lista, error_lista)
 plt.ylabel("Error relativo")
 plt.xlabel("Puntos de evaluación")
+plt.title("Error relativo vs. n")
 plt.grid()
 plt.show()
 
