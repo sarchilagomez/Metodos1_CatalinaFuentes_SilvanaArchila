@@ -50,7 +50,7 @@ class Simpson(Integrator):
         
         return self.error
     
-x = np.linspace(-0.009,0.009,50) #se daña si le pongo 0.01, la raiz queda negativa 
+x = np.linspace(-0.009,0.009,50)
 f = lambda x: np.sqrt(0.01**2 - x**2)/(0.5+x)
 
 I = Simpson(x,f)
